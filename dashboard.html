@@ -31,11 +31,13 @@
                 <canvas id="thirdChart" width="400" height="200"></canvas>
             </div>
     
-            <!-- Quarta coluna para o futuro gráfico -->
-            <div class="col-md-6">
-                <canvas id="fourthChart" width="400" height="200"></canvas>
-            </div>
+            <!-- Quarta coluna para o gráfico de utm_source e utm_campaign -->
+<div class="col-md-6">
+    <canvas id="fourthChart" width="400" height="200"></canvas>
+</div>
         </div>
+
+        
     </div>
     
     <script>
@@ -189,6 +191,82 @@
                 });
             })
             .catch(error => console.error('Erro ao carregar os dados da API do formulário:', error));
+
+
+
+            // Função para pegar os dados do gráfico de utm_source com utm_campaign
+fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData')
+    .then(response => response.json())
+    .then(data => {
+        // Contabilizando as ocorrências de cada "utm_campaign" para cada "utm_source"
+        const campaignCount = {};
+
+        data.forEach(item => {
+            const source = item.utm_source;
+            const campaign = item.utm_campaign;
+
+            // Se a chave 'source' não existe, cria um novo objeto para esse source
+            if (!campaignCount[source]) {
+                campaignCount[source] = {};
+            }
+
+            // Se a campanha já existe, incrementa o contador
+            if (campaignCount[source][campaign]) {
+                campaignCount[source][campaign]++;
+            } else {
+                // Se não, cria um novo contador para a campanha
+                campaignCount[source][campaign] = 1;
+            }
+        });
+
+        // Preparando os dados para o gráfico
+        const sourceLabels = Object.keys(campaignCount); // utm_source
+        const campaignLabels = []; // Para cada utm_source, pegamos as campanhas associadas
+        const campaignCounts = []; // Contagem das campanhas
+
+        sourceLabels.forEach(source => {
+            // Pegando as campanhas para cada fonte
+            const campaigns = Object.keys(campaignCount[source]);
+            campaigns.forEach(campaign => {
+                campaignLabels.push(`${source} - ${campaign}`);
+                campaignCounts.push(campaignCount[source][campaign]);
+            });
+        });
+
+        // Gerando cores para cada campanha
+        const colors = generateColors(campaignLabels.length);
+
+        // Criando o gráfico de barras para utm_source e utm_campaign
+        const ctx4 = document.getElementById('fourthChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: campaignLabels,
+                datasets: [{
+                    label: 'Ocorrências de Campanhas por UTM Source',
+                    data: campaignCounts,
+                    backgroundColor: colors,
+                    borderColor: colors.map(color => color.replace('0.2', '1')), // Mudando a opacidade da cor para a borda
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 90,
+                            minRotation: 45
+                        }
+                    }
+                }
+            }
+        });
+    })
+    .catch(error => console.error('Erro ao carregar os dados da API:', error));
     </script>
     
 
