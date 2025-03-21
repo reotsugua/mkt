@@ -106,34 +106,33 @@
         fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(d)});
       })(window, document);
       </script> -->
-    <script>
-      (function(w, d, u, p){
-    var s = new URLSearchParams(w.location.search);
-    var utmSource = s.get('utm_source');
-    var utmMedium = s.get('utm_medium');
-    var utmCampaign = s.get('utm_campaign');
-
-    // Obter a data e hora no formato UTC
-    var dateHourUTC = new Date().toISOString();
-
-    // Verifica se todos os parâmetros UTM estão presentes
-    if (utmSource && utmMedium && utmCampaign) {
-        var d = {
-            utm_source: utmSource, 
-            utm_medium: utmMedium, 
-            utm_campaign: utmCampaign, 
-            date_hour_utc: dateHourUTC // Adiciona a data e hora UTC
-        };
-        fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(d)
-        });
-    }
-})(window, document);
-
-
+      <script>
+        (function(w, d, u, p){
+          var s = new URLSearchParams(w.location.search);
+          var utmSource = s.get('utm_source') || 'direct';  // Se não houver utm_source, atribui "direct"
+          var utmMedium = s.get('utm_medium') || 'direct';  // Se não houver utm_medium, atribui "direct"
+          var utmCampaign = s.get('utm_campaign') || 'direct';  // Se não houver utm_campaign, atribui "direct"
+      
+          // Obter a data e hora no formato UTC
+          var dateHourUTC = new Date().toISOString();
+      
+          // Criação do objeto de dados com os parâmetros UTM
+          var d = {
+              utm_source: utmSource, 
+              utm_medium: utmMedium, 
+              utm_campaign: utmCampaign, 
+              date_hour_utc: dateHourUTC // Adiciona a data e hora UTC
+          };
+      
+          // Envia os dados via POST
+          fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify(d)
+          });
+        })(window, document);
       </script>
+      
       
 
 
