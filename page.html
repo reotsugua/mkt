@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="pt-BR" class="h-100" data-bs-theme="auto">
+  <head><script src="assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.122.0">
+    <title>Euro17 - Crédito</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/cover/">
+
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+<link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        width: 100%;
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .btn-bd-primary {
+        --bd-violet-bg: #712cf9;
+        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+        --bs-btn-font-weight: 600;
+        --bs-btn-color: var(--bs-white);
+        --bs-btn-bg: var(--bd-violet-bg);
+        --bs-btn-border-color: var(--bd-violet-bg);
+        --bs-btn-hover-color: var(--bs-white);
+        --bs-btn-hover-bg: #6528e0;
+        --bs-btn-hover-border-color: #6528e0;
+        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+        --bs-btn-active-color: var(--bs-btn-hover-color);
+        --bs-btn-active-bg: #5a23c8;
+        --bs-btn-active-border-color: #5a23c8;
+      }
+
+      .bd-mode-toggle {
+        z-index: 1500;
+      }
+
+      .bd-mode-toggle .dropdown-menu .active .bi {
+        display: block !important;
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="cover.css" rel="stylesheet">
+
+    <!-- <script>
+      (function(w,d,u,p){
+        var s = new URLSearchParams(w.location.search), d = {utm_source: s.get('utm_source'), utm_medium: s.get('utm_medium'), utm_campaign: s.get('utm_campaign')};
+        fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(d)});
+      })(window, document);
+      </script> -->
+      <script>
+        (function(w, d, u, p){
+          var s = new URLSearchParams(w.location.search);
+          var utmSource = s.get('utm_source') || 'direct';  // Se não houver utm_source, atribui "direct"
+          var utmMedium = s.get('utm_medium') || 'direct';  // Se não houver utm_medium, atribui "direct"
+          var utmCampaign = s.get('utm_campaign') || 'direct';  // Se não houver utm_campaign, atribui "direct"
+      
+          // Obter a data e hora no formato UTC
+          var dateHourUTC = new Date().toISOString();
+      
+          // Criação do objeto de dados com os parâmetros UTM
+          var d = {
+              utm_source: utmSource, 
+              utm_medium: utmMedium, 
+              utm_campaign: utmCampaign, 
+              date_hour_utc: dateHourUTC // Adiciona a data e hora UTC
+          };
+      
+          // Envia os dados via POST
+          fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify(d)
+          });
+        })(window, document);
+      </script>
+      
+      
+
+
+      
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WB077GQJEZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WB077GQJEZ');
+</script>
+
+
+  </head>
+  <body class="d-flex h-100 text-center text-bg-primary">
+    
+
+    
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="mb-auto">
+        <div>
+          <h3 class="float-md-start mb-0">Euro17</h3>
+          <nav class="nav nav-masthead justify-content-center float-md-end">
+            <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">Home</a>
+            <a class="nav-link fw-bold py-1 px-0" href="#">Quem Somos</a>
+            <a class="nav-link fw-bold py-1 px-0" href="#">Contato</a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="px-3">
+        <div class="pb-5">
+          <div class="progress" role="progressbar" aria-label="Default striped example" aria-valuenow="10"
+              aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 51%"></div>
+          </div>
+          <div class="d-flex justify-content-between">
+              <span><a class="text-white link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="index.html">Campanhas</a></span>
+              <span><a class="text-white link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="page.html">Site</a></span>
+              <span><a class="text-white link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="dashboard.html">Dashboard</a></span>
+          </div>
+      </div>
+        <form id="form-leads" class="row g-3 needs-validation mt-3" >
+          <div class="col">
+            <label for="validationCustom01" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="validationCustom01" required>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+          </div>
+          
+          <div class="col">
+            <label for="validationCustomUsername" class="form-label">Email</label>
+            <div class="input-group has-validation">
+              <span class="input-group-text" id="inputGroupPrepend">@</span>
+              <input type="email" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+              <div class="invalid-feedback">
+                Please choose a username.
+              </div>
+            </div>
+          </div>
+          
+          
+          
+          
+          <div class="col-12">
+            <button class="btn btn-success" type="submit">Enviar</button>
+          </div>
+        </form>
+      </main>
+
+      <footer class="mt-auto text-white-50">
+
+        <!-- <a href="campanhas.html" class="btn btn-secondary" role="button" aria-disabled="true">campanhas</a>
+        <a href="dashboard.html" class="btn btn-dark" role="button" aria-disabled="true">dashboard</a> -->
+      </footer>
+    </div>
+
+
+    <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // Função para pegar parâmetros da URL (como utm_source)
+      function getUrlParameter(name) {
+          const urlParams = new URLSearchParams(window.location.search);
+          return urlParams.has(name) ? urlParams.get(name) : null;
+      }
+
+      // Envio do formulário
+      document.getElementById('form-leads').addEventListener('submit', function(event) {
+          event.preventDefault();  // Previne o envio padrão do formulário
+
+          // Coletando os dados do formulário
+          const name = document.getElementById('validationCustom01').value;
+          const email = document.getElementById('validationCustomUsername').value;
+
+          // Pegando o valor de utm_source da URL
+          const utmSource = getUrlParameter('utm_source') || "default_utm_source"; // Se não encontrar, usa um valor default
+
+          // Criando o corpo da requisição
+          const requestBody = {
+              name: name,
+              email: email,
+              utm_source: utmSource
+          };
+
+          // Enviando os dados para a API usando POST
+          fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/form', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(requestBody) // Corpo da requisição como JSON
+          })
+          .then(response => {
+              if (response.ok) {
+                  alert('Formulário enviado com sucesso!');
+                  document.getElementById('form-leads').reset(); // Limpa o formulário após o envio
+              } else {
+                  alert('Erro ao enviar o formulário');
+              }
+          })
+          .catch(error => {
+              console.error('Erro ao enviar dados:', error);
+              alert('Erro ao enviar o formulário');
+          });
+      });
+  </script>
+
+    </body>
+
+
+</html>
