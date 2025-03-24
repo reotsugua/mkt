@@ -1,26 +1,45 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!doctype html>
+<html lang="pt-BR" class="h-100">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exibição de Gráficos de Leads</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Análise Leads</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="cover.css" rel="stylesheet">
+
 </head>
-<body>
-    <div class="container mt-5">
-        <div>
-            <h1 class="text-center">Dashboard de Leads</h1>
-            <div class="progress mt-3">
-                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="3">3/3</div>
+
+<body class="d-flex h-100 text-center text-bg-dark">
+
+    <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mb-3">
+            <div>
+                <h3 class="float-md-start mb-0">Análise leads</h3>
+                <nav class="nav nav-masthead justify-content-center float-md-end">
+                    <a class="nav-link fw-bold py-1 px-0 " aria-current="page" href="index.html">Campanhas</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="formulario.html">Formulário</a>
+                    <a class="nav-link fw-bold py-1 px-0 active" href="dashboard.html">Dashboard</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mb-auto">
+            <div class="progress">
+                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="1"
+                    aria-valuemin="0" aria-valuemax="3">3/3</div>
             </div>
             <div class="d-flex justify-content-around">
-                <span><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="index.html">Campanhas</a></span>
-                <span><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="page.html">Site</a></span>
-                <span><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="dashboard.html">Dashboard</a></span>
+                <span>Campanhas</span>
+                <span>Formulário</span>
+                <span>Dashboard</span>
             </div>
         </div>
-        <!-- Linha com duas colunas -->
+
+        <main>
+            <!-- Linha com duas colunas -->
         <div class="row mt-3">
             <!-- Primeira coluna para o gráfico de UTM -->
             <div class="col-md-6">
@@ -45,10 +64,20 @@
     <canvas id="fourthChart" width="400" height="200"></canvas>
 </div>
         </div>
+        </main>
 
-        
+        <footer class="mt-auto text-white-50">
+            <!-- <a href="campanhas.html" class="btn btn-secondary" role="button" aria-disabled="true">campanhas</a>
+            <a href="dashboard.html" class="btn btn-dark" role="button" aria-disabled="true">dashboard</a> -->
+        </footer>
     </div>
-    
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Função para pegar os dados da API
         fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData')
@@ -63,12 +92,12 @@
                         sourcesCount[item.utm_source] = 1;
                     }
                 });
-    
+
                 // Preparando os dados para o gráfico de barras
                 const labels = Object.keys(sourcesCount); // fontes (utm_source)
                 const counts = Object.values(sourcesCount); // contagem de ocorrências
                 const colors = generateColors(labels.length); // Gera cores diferentes para cada barra
-    
+
                 // Criando o gráfico de barras
                 const ctx1 = document.getElementById('utmChart').getContext('2d');
                 new Chart(ctx1, {
@@ -92,7 +121,7 @@
                         }
                     }
                 });
-    
+
                 // Preparando os dados para o gráfico de linha (leads por minuto)
                 const minuteCount = {};
                 data.forEach(item => {
@@ -103,10 +132,10 @@
                         minuteCount[minute] = 1;
                     }
                 });
-    
+
                 const minutes = Object.keys(minuteCount).sort(); // Ordena os minutos
                 const minuteCounts = minutes.map(minute => minuteCount[minute]);
-    
+
                 // Criando o gráfico de linha
                 const ctx2 = document.getElementById('minuteChart').getContext('2d');
                 new Chart(ctx2, {
@@ -139,7 +168,7 @@
                 });
             })
             .catch(error => console.error('Erro ao carregar os dados da API:', error));
-    
+
         // Função para gerar cores aleatórias
         function generateColors(num) {
             const colors = [];
@@ -149,19 +178,19 @@
             }
             return colors;
         }
-    
+
         // Função auxiliar para gerar um número inteiro aleatório entre min e max
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
-    
+
         // Função para pegar os dados do novo gráfico
         fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/form')
             .then(response => response.json())
             .then(data => {
                 // Contabilizando as ocorrências de cada "utm_source" na API de formulários
                 const formCountBySource = {};
-    
+
                 data.forEach(item => {
                     const utmSource = item.utm_source;
                     if (formCountBySource[utmSource]) {
@@ -170,11 +199,11 @@
                         formCountBySource[utmSource] = 1;
                     }
                 });
-    
+
                 // Preparando os dados para o gráfico de barras
                 const formLabels = Object.keys(formCountBySource); // utm_source
                 const formCounts = Object.values(formCountBySource); // contagem de registros
-    
+
                 // Criando o gráfico de barras
                 const ctx3 = document.getElementById('thirdChart').getContext('2d');
                 new Chart(ctx3, {
@@ -203,101 +232,99 @@
 
 
 
-            // Função para pegar os dados do gráfico de utm_source com utm_campaign
-            fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData')
-    .then(response => response.json())
-    .then(data => {
-        // Contabilizando as ocorrências de cada combinação (utm_source, utm_campaign)
-        const campaignData = {};
+        // Função para pegar os dados do gráfico de utm_source com utm_campaign
+        fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData')
+            .then(response => response.json())
+            .then(data => {
+                // Contabilizando as ocorrências de cada combinação (utm_source, utm_campaign)
+                const campaignData = {};
 
-        data.forEach(item => {
-            const source = item.utm_source;
-            const campaign = item.utm_campaign;
+                data.forEach(item => {
+                    const source = item.utm_source;
+                    const campaign = item.utm_campaign;
 
-            if (!campaignData[source]) {
-                campaignData[source] = {};
-            }
-
-            if (campaignData[source][campaign]) {
-                campaignData[source][campaign]++;
-            } else {
-                campaignData[source][campaign] = 1;
-            }
-        });
-
-        // Gerando um conjunto único de labels para os eixos
-        const sourceLabels = Object.keys(campaignData); // utm_source (Eixo Y)
-        const campaignLabels = [...new Set(data.map(item => item.utm_campaign))]; // utm_campaign (Eixo X)
-
-        // Transformando os dados no formato necessário para um Bubble Chart
-        const datasets = [];
-        const colors = generateColors(sourceLabels.length); // Gera cores para cada source
-
-        sourceLabels.forEach((source, index) => {
-            const dataPoints = Object.keys(campaignData[source]).map(campaign => ({
-                x: campaignLabels.indexOf(campaign), // Posição no eixo X
-                y: sourceLabels.indexOf(source), // Posição no eixo Y
-                r: Math.sqrt(campaignData[source][campaign]) * 5 // Ajustando o tamanho da bolha
-            }));
-
-            datasets.push({
-                label: source,
-                data: dataPoints,
-                backgroundColor: colors[index],
-                borderColor: colors[index].replace('0.2', '1'),
-                borderWidth: 1
-            });
-        });
-
-        // Criando o gráfico Bubble Chart
-        const ctx4 = document.getElementById('fourthChart').getContext('2d');
-        new Chart(ctx4, {
-            type: 'bubble',
-            data: { datasets },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'UTM Campaign'
-                        },
-                        ticks: {
-                            callback: (value) => campaignLabels[value] // Exibe os nomes das campanhas corretamente
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'UTM Source'
-                        },
-                        ticks: {
-                            callback: (value) => sourceLabels[value] // Exibe os nomes dos sources corretamente
-                        }
+                    if (!campaignData[source]) {
+                        campaignData[source] = {};
                     }
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                const item = context.raw;
-                                const source = sourceLabels[item.y];
-                                const campaign = campaignLabels[item.x];
-                                const clicks = Math.round(item.r ** 2 / 25);
-                                return `Source: ${source}, Campaign: ${campaign}, Cliques: ${clicks}`;
+
+                    if (campaignData[source][campaign]) {
+                        campaignData[source][campaign]++;
+                    } else {
+                        campaignData[source][campaign] = 1;
+                    }
+                });
+
+                // Gerando um conjunto único de labels para os eixos
+                const sourceLabels = Object.keys(campaignData); // utm_source (Eixo Y)
+                const campaignLabels = [...new Set(data.map(item => item.utm_campaign))]; // utm_campaign (Eixo X)
+
+                // Transformando os dados no formato necessário para um Bubble Chart
+                const datasets = [];
+                const colors = generateColors(sourceLabels.length); // Gera cores para cada source
+
+                sourceLabels.forEach((source, index) => {
+                    const dataPoints = Object.keys(campaignData[source]).map(campaign => ({
+                        x: campaignLabels.indexOf(campaign), // Posição no eixo X
+                        y: sourceLabels.indexOf(source), // Posição no eixo Y
+                        r: Math.sqrt(campaignData[source][campaign]) * 5 // Ajustando o tamanho da bolha
+                    }));
+
+                    datasets.push({
+                        label: source,
+                        data: dataPoints,
+                        backgroundColor: colors[index],
+                        borderColor: colors[index].replace('0.2', '1'),
+                        borderWidth: 1
+                    });
+                });
+
+                // Criando o gráfico Bubble Chart
+                const ctx4 = document.getElementById('fourthChart').getContext('2d');
+                new Chart(ctx4, {
+                    type: 'bubble',
+                    data: { datasets },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'UTM Campaign'
+                                },
+                                ticks: {
+                                    callback: (value) => campaignLabels[value] // Exibe os nomes das campanhas corretamente
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'UTM Source'
+                                },
+                                ticks: {
+                                    callback: (value) => sourceLabels[value] // Exibe os nomes dos sources corretamente
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        const item = context.raw;
+                                        const source = sourceLabels[item.y];
+                                        const campaign = campaignLabels[item.x];
+                                        const clicks = Math.round(item.r ** 2 / 25);
+                                        return `Source: ${source}, Campaign: ${campaign}, Cliques: ${clicks}`;
+                                    }
+                                }
                             }
                         }
                     }
-                }
-            }
-        });
-    })
-    .catch(error => console.error('Erro ao carregar os dados da API:', error));
+                });
+            })
+            .catch(error => console.error('Erro ao carregar os dados da API:', error));
 
 
     </script>
-    
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
+
 </html>
