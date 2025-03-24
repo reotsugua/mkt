@@ -64,6 +64,19 @@
                     <canvas id="fourthChart" width="400" height="200"></canvas>
                 </div>
             </div>
+            <!-- Linha com duas colunas para os gráficos 3 e 4 -->
+            <div class="row mt-3 gap-3">
+                <!-- Terceira coluna para o novo gráfico de utm_source -->
+                <div class="col bg-white rounded p-3">
+                    <canvas id="conversionChart" width="400" height="200"></canvas>
+                </div>
+
+                <!-- Quarta coluna para o gráfico de utm_source e utm_campaign -->
+                <div class="col bg-white rounded p-3">
+                    <canvas id="sixcahrt" width="400" height="200"></canvas>
+                </div>
+                
+            </div>
         </main>
 
         <footer class="mt-auto text-white-50">
@@ -109,7 +122,7 @@
                             data: counts,
                             backgroundColor: colors,
                             borderColor: colors.map(color => color.replace('0.2',
-                            '1')), // Mudando a opacidade da cor para a borda
+                                '1')), // Mudando a opacidade da cor para a borda
                             borderWidth: 1
                         }]
                     },
@@ -127,7 +140,7 @@
                 const minuteCount = {};
                 data.forEach(item => {
                     const minute = item.date_hour_utc.substring(0,
-                    16); // Pegando até minuto (YYYY-MM-DDTHH:MM)
+                        16); // Pegando até minuto (YYYY-MM-DDTHH:MM)
                     if (minuteCount[minute]) {
                         minuteCount[minute]++;
                     } else {
@@ -187,53 +200,30 @@
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        // Função para pegar os dados do novo gráfico
         fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/form')
             .then(response => response.json())
             .then(data => {
-                // Contabilizando as ocorrências de cada "utm_source" na API de formulários
-                const formCountBySource = {};
-
+                const sourceCounts = {};
                 data.forEach(item => {
-                    const utmSource = item.utm_source;
-                    if (formCountBySource[utmSource]) {
-                        formCountBySource[utmSource]++;
-                    } else {
-                        formCountBySource[utmSource] = 1;
-                    }
+                    sourceCounts[item.utm_source] = (sourceCounts[item.utm_source] || 0) + 1;
                 });
 
-                // Preparando os dados para o gráfico de barras
-                const formLabels = Object.keys(formCountBySource); // utm_source
-                const formCounts = Object.values(formCountBySource); // contagem de registros
+                const labels = Object.keys(sourceCounts);
+                const values = Object.values(sourceCounts);
 
-                // Criando o gráfico de barras
-                const ctx3 = document.getElementById('thirdChart').getContext('2d');
-                new Chart(ctx3, {
-                    type: 'bar',
+                const ctx = document.getElementById('thirdChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
                     data: {
-                        labels: formLabels,
+                        labels: labels,
                         datasets: [{
-                            label: 'Leads por UTM Source (Formulário)',
-                            data: formCounts,
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
+                            label: 'Leads Quentes por Canal',
+                            data: values,
+                            backgroundColor: ['red', 'blue', 'green', 'yellow'],
                         }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
                     }
                 });
-            })
-            .catch(error => console.error('Erro ao carregar os dados da API do formulário:', error));
-
-
+            });
 
         // Função para pegar os dados do gráfico de utm_source com utm_campaign
         fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData')
@@ -330,6 +320,130 @@
                 });
             })
             .catch(error => console.error('Erro ao carregar os dados da API:', error));
+
+
+
+        Promise.all([
+                fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData').then(res => res.json()),
+                fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/form').then(res => res.json())
+            ])
+            .then(([utmData, formData]) => {
+                const conversoesPorCampanha = {};
+
+                // Criar um mapa de utm_source para utm_campaign
+                const utmMap = {};
+                utmData.forEach(item => {
+                    utmMap[item.utm_source] = item.utm_campaign;
+                });
+
+                // Contar quantos leads vieram de cada campanha
+                formData.forEach(item => {
+                    const campaign = utmMap[item.utm_source] || 'Desconhecida';
+                    conversoesPorCampanha[campaign] = (conversoesPorCampanha[campaign] || 0) + 1;
+                });
+
+                const labels = Object.keys(conversoesPorCampanha);
+                const values = Object.values(conversoesPorCampanha);
+
+                const ctx = document.getElementById('conversionChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Conversões por Campanha',
+                            data: values,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Erro ao carregar os dados da API:', error));
+
+            Promise.all([
+    fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/utmData').then(res => res.json()),
+    fetch('https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/form').then(res => res.json())
+])
+.then(([utmData, formData]) => {
+    // Contabilizando acessos por campanha (utm_source)
+    const acessosPorCampanha = {};
+    utmData.forEach(item => {
+        const campanha = item.utm_campaign;
+        acessosPorCampanha[campanha] = (acessosPorCampanha[campanha] || 0) + 1;
+    });
+
+    // Contabilizando leads por campanha (utm_source)
+    const leadsPorCampanha = {};
+    formData.forEach(item => {
+        const campanha = utmData.find(data => data.utm_source === item.utm_source)?.utm_campaign || 'Desconhecida';
+        leadsPorCampanha[campanha] = (leadsPorCampanha[campanha] || 0) + 1;
+    });
+
+    // Preparando os dados para o gráfico
+    const campanhas = Object.keys(acessosPorCampanha);
+    const acessos = campanhas.map(campanha => acessosPorCampanha[campanha]);
+    const leads = campanhas.map(campanha => leadsPorCampanha[campanha] || 0);  // Garantir que campanhas sem leads tenham valor 0
+
+    // Criando o gráfico de barras agrupadas
+    const ctx = document.getElementById('sixcahrt').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: campanhas,
+            datasets: [
+                {
+                    label: 'Acessos por Campanha',
+                    data: acessos,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',  // Cor dos acessos
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Leads por Campanha',
+                    data: leads,
+                    backgroundColor: 'rgba(153, 102, 255, 0.6)',  // Cor dos leads
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const datasetLabel = context.dataset.label || '';
+                            const value = context.raw;
+                            return `${datasetLabel}: ${value}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+})
+.catch(error => console.error('Erro ao carregar os dados da API:', error));
+
     </script>
 </body>
 

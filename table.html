@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exibição de Leads</title>
+    <!-- Inclusão do CSS do DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+</head>
+<body>
+
+    <h1>Leads</h1>
+    
+    <!-- Tabela para exibir os leads -->
+    <table id="leadsTable" class="display">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Pontuação do Lead</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Os dados dos leads serão injetados aqui via JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- Inclusão do jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Inclusão do DataTables -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Função para buscar os dados do endpoint '/form'
+            $.ajax({
+                url: 'https://67dd5617e00db03c406b2dbb.mockapi.io/api/v1/form', // Substitua pela URL do seu endpoint
+                method: 'GET',
+                success: function(data) {
+                    // Preenchendo a tabela com os dados dos leads
+                    data.forEach(function(lead) {
+                        $('#leadsTable tbody').append(
+                            '<tr>' +
+                                '<td>' + lead.name + '</td>' +
+                                '<td>' + lead.email + '</td>' +
+                                '<td>' + lead.lead_score + '</td>' +
+                            '</tr>'
+                        );
+                    });
+                    
+                    // Inicializando o DataTable
+                    $('#leadsTable').DataTable();
+                },
+                error: function(error) {
+                    console.log('Erro ao buscar dados:', error);
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>
