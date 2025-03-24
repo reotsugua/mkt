@@ -15,7 +15,7 @@
 
 <body class="d-flex h-100 text-center text-bg-dark">
 
-    <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="container d-flex w-100 h-00 p-3 mx-auto flex-column">
         <header class="mb-3">
             <div>
                 <h3 class="float-md-start mb-0">Análise leads</h3>
@@ -38,32 +38,32 @@
             </div>
         </div>
 
-        <main class="card p-4">
+        <main>
             <!-- Linha com duas colunas -->
-        <div class="row mt-3">
-            <!-- Primeira coluna para o gráfico de UTM -->
-            <div class="col-md-6">
-                <canvas id="utmChart" width="400" height="200"></canvas>
+            <div class="row mt-3 gap-3">
+                <!-- Primeira coluna para o gráfico de UTM -->
+                <div class="col mt-5 card p-3">
+                    <canvas id="utmChart" width="400" height="200"></canvas>
+                </div>
+
+                <!-- Segunda coluna para o gráfico de leads por minuto -->
+                <div class="col mt-5 card p-3">
+                    <canvas id="minuteChart" width="400" height="200"></canvas>
+                </div>
             </div>
-            
-            <!-- Segunda coluna para o gráfico de leads por minuto -->
-            <div class="col-md-6 mt-5 mt-md-0">
-                <canvas id="minuteChart" width="400" height="200"></canvas>
+
+            <!-- Linha com duas colunas para os gráficos 3 e 4 -->
+            <div class="row mt-3 gap-3">
+                <!-- Terceira coluna para o novo gráfico de utm_source -->
+                <div class="col card p-3">
+                    <canvas id="thirdChart" width="400" height="200"></canvas>
+                </div>
+
+                <!-- Quarta coluna para o gráfico de utm_source e utm_campaign -->
+                <div class="col card p-3">
+                    <canvas id="fourthChart" width="400" height="200"></canvas>
+                </div>
             </div>
-        </div>
-    
-        <!-- Linha com duas colunas para os gráficos 3 e 4 -->
-        <div class="row mt-5">
-            <!-- Terceira coluna para o novo gráfico de utm_source -->
-            <div class="col-md-6">
-                <canvas id="thirdChart" width="400" height="200"></canvas>
-            </div>
-    
-            <!-- Quarta coluna para o gráfico de utm_source e utm_campaign -->
-<div class="col-md-6">
-    <canvas id="fourthChart" width="400" height="200"></canvas>
-</div>
-        </div>
         </main>
 
         <footer class="mt-auto text-white-50">
@@ -74,8 +74,8 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -108,7 +108,8 @@
                             label: 'Quantidade de Registros por UTM Source',
                             data: counts,
                             backgroundColor: colors,
-                            borderColor: colors.map(color => color.replace('0.2', '1')), // Mudando a opacidade da cor para a borda
+                            borderColor: colors.map(color => color.replace('0.2',
+                            '1')), // Mudando a opacidade da cor para a borda
                             borderWidth: 1
                         }]
                     },
@@ -125,7 +126,8 @@
                 // Preparando os dados para o gráfico de linha (leads por minuto)
                 const minuteCount = {};
                 data.forEach(item => {
-                    const minute = item.date_hour_utc.substring(0, 16); // Pegando até minuto (YYYY-MM-DDTHH:MM)
+                    const minute = item.date_hour_utc.substring(0,
+                    16); // Pegando até minuto (YYYY-MM-DDTHH:MM)
                     if (minuteCount[minute]) {
                         minuteCount[minute]++;
                     } else {
@@ -173,7 +175,8 @@
         function generateColors(num) {
             const colors = [];
             for (let i = 0; i < num; i++) {
-                const randomColor = `rgba(${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, 0.2)`;
+                const randomColor =
+                    `rgba(${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, 0.2)`;
                 colors.push(randomColor);
             }
             return colors;
@@ -266,7 +269,8 @@
                     const dataPoints = Object.keys(campaignData[source]).map(campaign => ({
                         x: campaignLabels.indexOf(campaign), // Posição no eixo X
                         y: sourceLabels.indexOf(source), // Posição no eixo Y
-                        r: Math.sqrt(campaignData[source][campaign]) * 5 // Ajustando o tamanho da bolha
+                        r: Math.sqrt(campaignData[source][campaign]) *
+                            5 // Ajustando o tamanho da bolha
                     }));
 
                     datasets.push({
@@ -282,7 +286,9 @@
                 const ctx4 = document.getElementById('fourthChart').getContext('2d');
                 new Chart(ctx4, {
                     type: 'bubble',
-                    data: { datasets },
+                    data: {
+                        datasets
+                    },
                     options: {
                         responsive: true,
                         scales: {
@@ -292,7 +298,8 @@
                                     text: 'UTM Campaign'
                                 },
                                 ticks: {
-                                    callback: (value) => campaignLabels[value] // Exibe os nomes das campanhas corretamente
+                                    callback: (value) => campaignLabels[
+                                        value] // Exibe os nomes das campanhas corretamente
                                 }
                             },
                             y: {
@@ -301,7 +308,8 @@
                                     text: 'UTM Source'
                                 },
                                 ticks: {
-                                    callback: (value) => sourceLabels[value] // Exibe os nomes dos sources corretamente
+                                    callback: (value) => sourceLabels[
+                                        value] // Exibe os nomes dos sources corretamente
                                 }
                             }
                         },
@@ -322,8 +330,6 @@
                 });
             })
             .catch(error => console.error('Erro ao carregar os dados da API:', error));
-
-
     </script>
 </body>
 
